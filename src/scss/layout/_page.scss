@@ -184,6 +184,21 @@ h2 { //main two titles
     transform: scale(1.1); 
 }
 
+.reset-fav-list-btn {
+    padding: 10px 20px;
+    background-color: #bcabd0;
+    border-style: none;
+    border-radius: 10px;
+    border: 1px solid rgb(139, 135, 141);
+    color: white;
+    font-size: 15px;
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+
+.reset-fav-list-btn:hover {
+    background-color: #cbbad5;
+}
 
 
 
