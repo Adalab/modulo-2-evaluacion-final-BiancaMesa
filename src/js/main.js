@@ -27,39 +27,24 @@ function findSeries () {
     })
 }
 
-
+//Add favorite series to favList
 function handleAddFavorites(event) {
 
     const seriesSelected = searchResult.find((series) => {
-        //condition why I want this item and not any other from the array
-        //if there is an element in the array that has the same id as the one selected, this method is going to return that element 
-        //devuelvenos del array de series buscadas, la serie cuyo id sea igual al id seleccionado 
         return parseInt(event.currentTarget.id) === series.mal_id; 
     });
   
     //We add the new element to favList 
     favList.push(seriesSelected);
-
-    //LOCAL STORAGE I (inside a function)
-    //We storage favList in LocalStorage, we usually do this inside a function
-    //The first element represents what we want to storage, we give a name to what we are going to storage, and the second one, what we are going to storage for real
-    //We need to turn our favList into a string because in LocalStorage we can only store strings, not arrays or any other type of data
+    
+    //We storage favList in LocalStorage
     localStorage.setItem('favList', JSON.stringify(favList));
-
 
     //Print favList in html for the first time 
     printFavSeries(favList, favSeriesContainer); 
-
-    // let favListAfterAdding = favList; 
-
-    // console.log('favList after adding: ', favList); 
-    // console.log('favListAfterAdding: ', favListAfterAdding); 
-
 }
 
-//LOCAL STORAGE II (outside a function, in global, so we have access to it since the website is refreshed). Once we have included the data we wanted in local storage, we want to be able to access it from the moment the website refreshes and from global
-//We use as the first parameter, the same one we used before. We are telling localStorage to go and find that element.
-//We turn the string we take from localStorage into an array 
+//LocalStorage: we get the favList from LS and save it in another variable 
 let favSeriesLocalStorage = JSON.parse(localStorage.getItem('favList')); 
 
 //If localStorage has already the favList in it, we print that list that is storaged
@@ -67,10 +52,10 @@ if (favSeriesLocalStorage !== null) {
     printFavSeries(favSeriesLocalStorage, favSeriesContainer);
 } else {
     printFavSeries(favList, favSeriesContainer); 
-    //const favList2 = favList; //create a second variable with the array of favList 
 }
 
 
+//Print favList  
 function printFavSeries(favList, favSeriesContainer) {
     seriesFound = ''; 
 
@@ -98,7 +83,7 @@ function printFavSeries(favList, favSeriesContainer) {
         }
     }
 
-    //Print found series in html
+    //Print favSeries in html
     favSeriesContainer.innerHTML = seriesFound; 
 
     //REMOVE FROM FAV LIST 
@@ -152,14 +137,14 @@ function printSeries(searchResult, searchedSeriesContainer) {
 }
 
 
-
-//Search series 
+//Handler function to Search series 
 function handleSearchClick(event) {
     event.preventDefault(); 
     findSeries(seriesFound);
 }
 
 searchButton.addEventListener('click', handleSearchClick);
+
 
 
 //Reset whole page
@@ -183,9 +168,6 @@ resetButton.addEventListener('click', handleReset);
 //Handler function to remove favorite series 
 function handleRemoveFav(event) {
     console.log('entra en remove fav');
-
-
-    //let favSeriesLocalStorage = localStorage.getItem('favList'); 
 
     //If localStorage has already the favList in it, we print that list that is storaged
     if (favSeriesLocalStorage !== null) {
@@ -241,8 +223,6 @@ function handleRemoveFav(event) {
         localStorage.setItem('favList', JSON.stringify(favList));
 
     } 
-  
-    
 }
 
 
