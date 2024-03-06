@@ -96,7 +96,6 @@ h2 {
 }
 
 .fav-container {
-    //border: 1px solid rgb(110, 108, 108);
     background-color: rgb(236, 215, 213);
     display: flex;
     flex-direction: column;
@@ -132,12 +131,7 @@ h2 {
 }
 
 .series-card:hover{
-    //background-color: rgb(220, 233, 220);
     transform: scale(1.09);
-
-    // .card-title {
-    //     background-color: rgb(167, 196, 180);
-    // }
 }
 
 .searched-img {
@@ -195,12 +189,7 @@ footer {
 
 .creator-link {
     text-decoration: none;
-    color: rgb(179, 209, 215);
+    color: rgb(241, 249, 251);
     cursor: pointer;
-}
-
-.creator-link:hover {
-    color: rgb(212, 223, 226);
-    
 }
 
