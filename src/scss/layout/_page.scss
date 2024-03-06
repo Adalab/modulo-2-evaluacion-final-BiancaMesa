@@ -68,7 +68,7 @@ main {
     display: flex;
 }
 
-h2 {
+h2 { //main two titles
     padding: 40px 0 40px 0;
     font-size: 25px;
     text-align: center;
@@ -76,36 +76,7 @@ h2 {
     color: white;
 }
 
-.card-title {
-    text-align: center;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 15px;
-    padding: 20px 0 20px 0;
-    background-color: rgb(160, 197, 197);
-    color: rgb(39, 53, 50);
-}
-
-.fav-card-title {
-    text-align: center;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 15px;
-    padding: 20px 0 20px 0;
-    width: 200px; 
-    background-color: rgb(201, 187, 206);
-    color: rgb(255, 255, 255);
-}
-
-.fav-container {
-    background-color: rgb(236, 215, 213);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    width: 1000px;
-}
-
-.search-container {
-    //border: 1px solid black;
+.search-container { //contains the title + cards 
     background-color: #badbdb;
     display: flex;
     flex-direction: column;
@@ -115,7 +86,7 @@ h2 {
     margin-bottom: 100px; 
 }
 
-.search-cards-container {
+.search-cards-container { //only contains the cards
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -128,6 +99,18 @@ h2 {
     margin: 0 30px 20px 30px;
     padding-top: 20px;
     cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 0.2);
+}
+
+.card-title {
+    text-align: center;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 15px;
+    padding: 20px 0 20px 0;
+    background-color: rgb(160, 197, 197);
+    color: rgb(39, 53, 50);
+    border-radius: 10px;
 }
 
 .series-card:hover{
@@ -138,10 +121,22 @@ h2 {
     width: 150px; 
 }
 
+
+
+
+.fav-container {
+    background-color: rgb(236, 215, 213);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 1000px;
+}
+
 .fav-cards-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; 
+    justify-content: center;
 }
 
 .series-fav-card {
@@ -151,6 +146,23 @@ h2 {
     margin: 0 30px 20px 20px;
     padding: 30px 20px 0 0; 
     cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 0.2);
+}
+
+// .series-fav-card:hover {
+//     transform: scale(1.09); 
+// }
+
+.fav-card-title {
+    text-align: center;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 15px;
+    padding: 20px 0 20px 0;
+    width: 200px; 
+    background-color: rgb(201, 187, 206);
+    color: rgb(255, 255, 255);
+    border-radius: 10px;
 }
 
 .fav-img {
@@ -169,7 +181,7 @@ h2 {
 
 .remove-fav-btn:hover {
     color: rgb(169, 136, 168);
-    transform: scale(1.08); 
+    transform: scale(1.1); 
 }
 
 

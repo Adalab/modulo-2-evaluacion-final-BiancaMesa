@@ -9,6 +9,7 @@ const searchedSeriesContainer = document.querySelector('.js-search-cards-contain
 const favSeriesContainer = document.querySelector('.js-fav-cards-container'); 
 const url = 'https://api.jikan.moe/v4/anime?q='; 
 const defaultImage = "https://via.placeholder.com/210x295/ffffff/666666/?text=TV"; 
+const resetFavListButton = document.querySelector('.js-reset-fav-list-btn'); 
 let searchResult = []; //array with found series
 let seriesFound = [];
 let favList = []; 
@@ -30,22 +31,38 @@ function findSeries () {
 //Add favorite series to favList
 function handleAddFavorites(event) {
 
+    const favSeriesLocalStorage = JSON.parse(localStorage.getItem('favList'));
+
+    // //If localStorage has already the favList in it, we print that list that is storaged
+    if (favSeriesLocalStorage !== null) { 
+        favList = favSeriesLocalStorage;
+    }
+
+    favSeriesContainer.innerHTML = '';
     const seriesSelected = searchResult.find((series) => {
         return parseInt(event.currentTarget.id) === series.mal_id; 
     });
   
-    //We add the new element to favList 
-    favList.push(seriesSelected);
+    const indexFavSeries = favList.findIndex((favItem)  => {
+        return favItem.mal_id === parseInt(event.currentTarget.id);
+    }); 
+
+    if (indexFavSeries === -1) {
+        favList.push(seriesSelected);
+    }
+    
     
     //We storage favList in LocalStorage
     localStorage.setItem('favList', JSON.stringify(favList));
 
     //Print favList in html for the first time 
     printFavSeries(favList, favSeriesContainer); 
+
 }
 
 //LocalStorage: we get the favList from LS and save it in another variable 
 let favSeriesLocalStorage = JSON.parse(localStorage.getItem('favList')); 
+
 
 //If localStorage has already the favList in it, we print that list that is storaged
 if (favSeriesLocalStorage !== null) {
@@ -167,44 +184,38 @@ resetButton.addEventListener('click', handleReset);
 
 //Handler function to remove favorite series 
 function handleRemoveFav(event) {
+    event.preventDefault();
 
-    const idToRemove = parseInt(event.currentTarget.id); 
-    
-    if (favSeriesLocalStorage !== null) {
+    const favLocalStorage = JSON.parse(localStorage.getItem('favList'));
 
-        const indexFavSeriesSelected = searchResult.findIndex((favItem) => {
-            return favItem.mal_id === idToRemove;
-        })
+    const indexFavSeriesSelected = favLocalStorage.findIndex((favItem) => {
+        return favItem.mal_id === parseInt(event.currentTarget.id);
+    })
 
-        if (indexFavSeriesSelected !== -1) {
-            favSeriesLocalStorage.splice(indexFavSeriesSelected, 1);
+    favLocalStorage.splice(indexFavSeriesSelected, 1);
 
-            //Print updated favList  
-            printFavSeries(favSeriesLocalStorage, favSeriesContainer);
+    //Update local storage 
+    localStorage.setItem('favList', JSON.stringify(favLocalStorage));
 
-            //Update local storage 
-            localStorage.setItem('favList', JSON.stringify(favSeriesLocalStorage));
-        }
+    favSeriesContainer.innerHTML = ''; 
 
-
-    } else {
-
-        const indexFavSeriesSelected = searchResult.findIndex((favItem) => {
-            return favItem.mal_id === idToRemove;
-        })
-
-        if (indexFavSeriesSelected !== -1) {
-            favList.splice(indexFavSeriesSelected, 1);
-
-            //Print updated favList  
-            printFavSeries(favList, favSeriesContainer);
-
-            //Update local storage 
-            localStorage.setItem('favList', JSON.stringify(favList));
-        }
-        
-    } 
+    //Print updated favList  
+    printFavSeries(favLocalStorage, favSeriesContainer);
 }
+
+
+//Reset favorite list 
+function handleClickResetFavList () {
+    // if (favSeriesLocalStorage === !null) {
+    //     printFavSeries(favSeriesLocalStorage, favSeriesContainer); 
+    // } else {
+        favList = []; 
+        printFavSeries(favList, favSeriesContainer); 
+    // }
+}
+
+resetFavListButton.addEventListener('click', handleClickResetFavList);
+
 
 
 
