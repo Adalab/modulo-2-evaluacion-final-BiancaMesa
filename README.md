@@ -2,7 +2,7 @@
 
 This website is an anime TV show finder. It is great for all those people who are passionate about anime and want to find new TV shows to binge. It is an interactive website that allows you both to look for anime TV shows and save your favorites those which have been selected. 
 
-# Goals 
+# Goals 🚀
 Create an interactive website using JavaScript.
 Implement concepts of events, functions, arrays, objects, conditionals, parameters. 
 Server requests through an API and the use of LocalStorage to storage the data related to favorite TV shows locally. 

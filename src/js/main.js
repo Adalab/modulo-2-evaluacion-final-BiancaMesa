@@ -56,15 +56,43 @@ function handleAddFavorites(event) {
     if (favSeriesLocalStorage !== null) {
         console.log(favList); 
         console.log('Está cogiendo la lista de LS'); 
-        printSeries(favSeriesLocalStorage, favSeriesContainer);
+        printFavSeries(favSeriesLocalStorage, favSeriesContainer);
     } else {
         console.log('NO está cogiendo la lista de LS, la está pintando por primera vez'); 
-        printSeries(favList, favSeriesContainer); 
+        printFavSeries(favList, favSeriesContainer); 
     }
 
 }
 
-    
+function printFavSeries(favList, favSeriesContainer) {
+    seriesFound = ''; 
+
+    for (const series of favList) {
+        const seriesTitle = series.title; 
+        const seriesImage = series.images.jpg.image_url; 
+        const seriesId = series.mal_id; 
+
+        if (series.images.jpg.image_url === null) {
+            seriesFound += `
+                <div class="series-fav-card js-series" id="${seriesId}"><<i class="remove-fav fa-regular fa-circle-xmark"></i>
+                    <h3 class="fav-card-title">${seriesTitle}</h3>
+                    <img src="${defaultImage}" alt="${seriesTitle}">
+                </div>
+                `
+        } else {
+            seriesFound += `
+            <div class="series-fav-card js-series" id="${seriesId}"><i class="remove-fav fa-regular fa-circle-xmark"></i>
+                <h3 class="fav-card-title">${seriesTitle}</h3>
+                <img src="${seriesImage}" alt="${seriesTitle}">
+            </div>
+            `
+        }
+    }
+
+    //Print found series in html
+    favSeriesContainer.innerHTML = seriesFound; 
+
+}
 
 
 
@@ -80,14 +108,14 @@ function printSeries(searchResult, searchedSeriesContainer) {
         if (series.images.jpg.image_url === null) {
             seriesFound += `
                 <div class="series-card js-series" id="${seriesId}">
-                    <h3>${seriesTitle}</h3>
+                    <h3 class="card-title">${seriesTitle}</h3>
                     <img src="${defaultImage}" alt="${seriesTitle}">
                 </div>
                 `
         } else {
             seriesFound += `
             <div class="series-card js-series" id="${seriesId}">
-                <h3>${seriesTitle}</h3>
+                <h3 class="card-title">${seriesTitle}</h3>
                 <img src="${seriesImage}" alt="${seriesTitle}">
             </div>
             `
