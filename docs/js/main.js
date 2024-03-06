@@ -1,24 +1,24 @@
-const S=document.querySelector(".js-input-search"),h=document.querySelector(".js-search-btn"),p=document.querySelector(".js-reset-btn");document.querySelectorAll(".js-remove-fav-btn");const u=document.querySelector(".js-search-cards-container"),o=document.querySelector(".js-fav-cards-container"),j="https://api.jikan.moe/v4/anime?q=",m="https://via.placeholder.com/210x295/ffffff/666666/?text=TV";let f=[],l=[],i=[];function L(){const t=S.value;fetch(j+t).then(e=>e.json()).then(e=>{f=e.data,g(f,u)})}function $(t){const e=f.find(r=>parseInt(t.currentTarget.id)===r.mal_id);i.push(e),localStorage.setItem("favList",JSON.stringify(i)),d(i,o)}let a=JSON.parse(localStorage.getItem("favList"));d(a!==null?a:i,o);function d(t,e){l="";for(const s of t){const c=s.title,v=s.images.jpg.image_url,n=s.mal_id;s.images.jpg.image_url===null?l+=`
-                <div class="series-fav-card js-series js-series-fav" id="${n}">
+const S=document.querySelector(".js-input-search"),h=document.querySelector(".js-search-btn"),j=document.querySelector(".js-reset-btn");document.querySelectorAll(".js-remove-fav-btn");const m=document.querySelector(".js-search-cards-container"),d=document.querySelector(".js-fav-cards-container"),p="https://api.jikan.moe/v4/anime?q=",u="https://via.placeholder.com/210x295/ffffff/666666/?text=TV";let c=[],a=[],n=[];function $(){const t=S.value;fetch(p+t).then(s=>s.json()).then(s=>{c=s.data,g(c,m)})}function I(t){const s=c.find(i=>parseInt(t.currentTarget.id)===i.mal_id);n.push(s),localStorage.setItem("favList",JSON.stringify(n)),f(n,d)}let o=JSON.parse(localStorage.getItem("favList"));f(o!==null?o:n,d);function f(t,s){a="";for(const e of t){const r=e.title,v=e.images.jpg.image_url,l=e.mal_id;e.images.jpg.image_url===null?a+=`
+                <div class="series-fav-card js-series js-series-fav" id="${l}">
                     <i class="remove-fav-btn js-remove-fav-btn fa-solid fa-x"></i>
-                    <img class="fav-img" src="${m}" alt="${c}">
-                    <h3 class="fav-card-title">${c}</h3>
+                    <img class="fav-img" src="${u}" alt="${r}">
+                    <h3 class="fav-card-title">${r}</h3>
                 </div>
-                `:l.includes(n)||(l+=`
-            <div class="series-fav-card js-series js-series-fav" id="${n}">
+                `:a.includes(l)||(a+=`
+            <div class="series-fav-card js-series js-series-fav" id="${l}">
                 <i class="remove-fav-btn js-remove-fav-btn fa-solid fa-x"></i>
-                <img class="fav-img" src="${v}" alt="${c}">
-                <h3 class="fav-card-title">${c}</h3>
+                <img class="fav-img" src="${v}" alt="${r}">
+                <h3 class="fav-card-title">${r}</h3>
             </div>
-            `)}e.innerHTML=l;const r=document.querySelectorAll(".js-remove-fav-btn");for(const s of r)s.addEventListener("click",F)}function g(t,e){l="";for(const s of t){const c=s.title,v=s.images.jpg.image_url,n=s.mal_id;s.images.jpg.image_url===null?l+=`
-                <div class="series-card js-series" id="${n}">
-                    <img class="searched-img" src="${m}" alt="${c}">
-                    <h3 class="card-title">${c}</h3>
+            `)}s.innerHTML=a;const i=document.querySelectorAll(".js-remove-fav-btn");for(const e of i)e.addEventListener("click",q)}function g(t,s){a="";for(const e of t){const r=e.title,v=e.images.jpg.image_url,l=e.mal_id;e.images.jpg.image_url===null?a+=`
+                <div class="series-card js-series" id="${l}">
+                    <img class="searched-img" src="${u}" alt="${r}">
+                    <h3 class="card-title">${r}</h3>
                 </div>
-                `:l+=`
-            <div class="series-card js-series" id="${n}">
-                <img class="searched-img" src="${v}" alt="${c}">
-                <h3 class="card-title">${c}</h3>
+                `:a+=`
+            <div class="series-card js-series" id="${l}">
+                <img class="searched-img" src="${v}" alt="${r}">
+                <h3 class="card-title">${r}</h3>
             </div>
-            `}e.innerHTML=l;const r=document.querySelectorAll(".js-series");for(const s of r)s.addEventListener("click",$)}function I(t){t.preventDefault(),L()}h.addEventListener("click",I);function x(){f=[],g(f,u),i=[],localStorage.removeItem("favList"),d(i,o)}p.addEventListener("click",x);function F(t){if(console.log("entra en remove fav"),a!==null){const e=a.findIndex(r=>r.mal_id===parseInt(t.currentTarget.id));console.log("indexFavSeriesSelected: ",e),console.log("favListLocalStorage before splice: ",a),e!==-1&&a.splice(e,1),console.log("favListLocalStorage after splice: ",a),console.log("indexFavSeriesSelected: ",e),d(a,o),localStorage.setItem("favList",JSON.stringify(a))}else{const e=i.findIndex(r=>r.mal_id===parseInt(t.currentTarget.id));console.log("indexFavSeriesSelected: ",e),console.log("favList after splice: ",i),e!==-1&&i.splice(e,1),console.log("favList after splice: ",i),console.log("indexFavSeriesSelected: ",e),d(a,o),localStorage.setItem("favList",JSON.stringify(i))}}
+            `}s.innerHTML=a;const i=document.querySelectorAll(".js-series");for(const e of i)e.addEventListener("click",I)}function L(t){t.preventDefault(),$()}h.addEventListener("click",L);function y(){c=[],g(c,m),n=[],localStorage.removeItem("favList"),f(n,d)}j.addEventListener("click",y);function q(t){const s=parseInt(t.currentTarget.id);if(o!==null){const i=c.findIndex(e=>e.mal_id===s);i!==-1&&(o.splice(i,1),f(o,d),localStorage.setItem("favList",JSON.stringify(o)))}else{const i=c.findIndex(e=>e.mal_id===s);i!==-1&&(n.splice(i,1),f(n,d),localStorage.setItem("favList",JSON.stringify(n)))}}
 //# sourceMappingURL=main.js.map
