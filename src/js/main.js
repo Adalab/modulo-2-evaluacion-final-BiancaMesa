@@ -48,7 +48,7 @@ function handleAddFavorites(event) {
 
 
     //Print favList in html for the first time 
-    printSeries(favList, favSeriesContainer); 
+    printFavSeries(favList, favSeriesContainer); 
 
 }
 
@@ -59,7 +59,6 @@ function handleAddFavorites(event) {
 
     //If localStorage has already the favList in it, we print that list that is storaged
     if (favSeriesLocalStorage !== null) {
-        console.log(favList); 
         console.log('Está cogiendo la lista de LS'); 
         printFavSeries(favSeriesLocalStorage, favSeriesContainer);
     } else {
