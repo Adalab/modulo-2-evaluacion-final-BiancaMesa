@@ -53,7 +53,6 @@ h1 {
     padding: 20px 80px;
     border-radius: 10px;
     border-style: none;
-    //width: 200px;
 }
 
 .input-search::placeholder {
@@ -65,7 +64,7 @@ h1 {
 
 
 main {
-    background-color: #98d0d0;
+    background-color: #badbdb;;
     display: flex;
 }
 
@@ -82,7 +81,7 @@ h2 {
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     font-size: 15px;
     padding: 20px 0 20px 0;
-    background-color: rgb(151, 177, 177);
+    background-color: rgb(160, 197, 197);
     color: rgb(39, 53, 50);
 }
 
@@ -91,6 +90,7 @@ h2 {
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     font-size: 15px;
     padding: 20px 0 20px 0;
+    width: 200px; 
     background-color: rgb(201, 187, 206);
     color: rgb(255, 255, 255);
 }
@@ -102,47 +102,80 @@ h2 {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    width: 600px;
+    width: 1000px;
 }
 
 .search-container {
     //border: 1px solid black;
-    background-color: #98d0d0;
+    background-color: #badbdb;
     display: flex;
-    width: 100%;
     flex-direction: column;
-    // flex-wrap: wrap;
     align-items: center;
     text-align: center;
-    margin-bottom: 100px;
+    width: 100%;
+    margin-bottom: 100px; 
+}
+
+.search-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .series-card {
     border: 0.5px solid #98b6b8;
     background-color: rgb(222, 230, 227);
-    width: 300px;
-    padding-bottom: 20px;
+    width: 200px;
     margin: 0 30px 20px 30px;
+    padding-top: 20px;
     cursor: pointer;
+}
+
+.series-card:hover{
+    //background-color: rgb(220, 233, 220);
+    transform: scale(1.09);
+
+    // .card-title {
+    //     background-color: rgb(167, 196, 180);
+    // }
+}
+
+.searched-img {
+    width: 150px; 
+}
+
+.fav-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
 }
 
 .series-fav-card {
     border: 0.5px solid #98b6b8;
     background-color: rgb(231, 228, 232);
-    width: 300px;
-    padding-bottom: 20px;
-    margin: 0 30px 20px 30px;
+    width: 200px;
+    margin: 0 30px 20px 20px;
+    padding: 30px 20px 0 0; 
     cursor: pointer;
 }
 
-.remove-fav {
-    font-size: 23px;
-    color: #5f6563; 
-    // position: absolute;
-    // left: 175px;
-    // top: 768px; 
-    cursor: pointer; 
+.fav-img {
+    width: 150px; 
+}
 
+
+.remove-fav-btn {
+    font-size: 16px;
+    color: #726d83; 
+    position: relative;
+    top: -217px; 
+    left: 171px; 
+    cursor: pointer; 
+}
+
+.remove-fav-btn:hover {
+    color: rgb(169, 136, 168);
+    transform: scale(1.08); 
 }
 
 
@@ -159,3 +192,15 @@ footer {
     position: fixed;
     bottom: 0;
 }
+
+.creator-link {
+    text-decoration: none;
+    color: rgb(179, 209, 215);
+    cursor: pointer;
+}
+
+.creator-link:hover {
+    color: rgb(212, 223, 226);
+    
+}
+

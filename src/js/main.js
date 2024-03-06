@@ -5,8 +5,8 @@ const inputSearch = document.querySelector('.js-input-search');
 const searchButton = document.querySelector('.js-search-btn');
 const resetButton = document.querySelector('.js-reset-btn');
 const removeFavButton = document.querySelectorAll('.js-remove-fav-btn'); 
-const searchedSeriesContainer = document.querySelector('.js-search-container'); 
-const favSeriesContainer = document.querySelector('.js-fav-container'); 
+const searchedSeriesContainer = document.querySelector('.js-search-cards-container'); 
+const favSeriesContainer = document.querySelector('.js-fav-cards-container'); 
 const url = 'https://api.jikan.moe/v4/anime?q='; 
 const defaultImage = "https://via.placeholder.com/210x295/ffffff/666666/?text=TV"; 
 let searchResult = []; //array with found series
@@ -81,16 +81,18 @@ function printFavSeries(favList, favSeriesContainer) {
 
         if (series.images.jpg.image_url === null) {
             seriesFound += `
-                <div class="series-fav-card js-series js-series-fav" id="${seriesId}"><<i class="remove-fav js-remove-fav-btn fa-regular fa-circle-xmark"></i>
+                <div class="series-fav-card js-series js-series-fav" id="${seriesId}">
+                    <i class="remove-fav-btn js-remove-fav-btn fa-solid fa-x"></i>
+                    <img class="fav-img" src="${defaultImage}" alt="${seriesTitle}">
                     <h3 class="fav-card-title">${seriesTitle}</h3>
-                    <img src="${defaultImage}" alt="${seriesTitle}">
                 </div>
                 `
         } else if (!seriesFound.includes(seriesId)) {
             seriesFound += `
-            <div class="series-fav-card js-series js-series-fav" id="${seriesId}"><i class="remove-fav js-remove-fav-btn fa-regular fa-circle-xmark"></i>
+            <div class="series-fav-card js-series js-series-fav" id="${seriesId}">
+                <i class="remove-fav-btn js-remove-fav-btn fa-solid fa-x"></i>
+                <img class="fav-img" src="${seriesImage}" alt="${seriesTitle}">
                 <h3 class="fav-card-title">${seriesTitle}</h3>
-                <img src="${seriesImage}" alt="${seriesTitle}">
             </div>
             `
         }
@@ -122,15 +124,15 @@ function printSeries(searchResult, searchedSeriesContainer) {
         if (series.images.jpg.image_url === null) {
             seriesFound += `
                 <div class="series-card js-series" id="${seriesId}">
+                    <img class="searched-img" src="${defaultImage}" alt="${seriesTitle}">
                     <h3 class="card-title">${seriesTitle}</h3>
-                    <img src="${defaultImage}" alt="${seriesTitle}">
                 </div>
                 `
         } else {
             seriesFound += `
             <div class="series-card js-series" id="${seriesId}">
+                <img class="searched-img" src="${seriesImage}" alt="${seriesTitle}">
                 <h3 class="card-title">${seriesTitle}</h3>
-                <img src="${seriesImage}" alt="${seriesTitle}">
             </div>
             `
         }
