@@ -1,6 +1,6 @@
 'use strict';
 
-//Variables globales
+//Global variables 
 const inputSearch = document.querySelector('.js-input-search');
 const searchButton = document.querySelector('.js-search-btn');
 const resetButton = document.querySelector('.js-reset-btn');
@@ -40,15 +40,19 @@ function handleAddFavorites(event) {
     //We add the new element to favList 
     favList.push(seriesSelected);
 
-    //We storage favList in LocalStorage 
+    //LOCAL STORAGE I (inside a function)
+    //We storage favList in LocalStorage, we usually do this inside a function
     //The first element represents what we want to storage, we give a name to what we are going to storage, and the second one, what we are going to storage for real
     //We need to turn our favList into a string because in LocalStorage we can only store strings, not arrays or any other type of data
     localStorage.setItem('favList', JSON.stringify(favList));
 
 
-    //Print favList in html 
-    //printSeries(favList, favSeriesContainer); 
+    //Print favList in html for the first time 
+    printSeries(favList, favSeriesContainer); 
 
+}
+
+    //LOCAL STORAGE II (outside a function, in global, so we have access to it since the website is refreshed). Once we have included the data we wanted in local storage, we want to be able to access it from the moment the website refreshes and from global
     //We use as the first parameter, the same one we used before. We are telling localStorage to go and find that element.
     //We turn the string we take from localStorage into an array 
     const favSeriesLocalStorage = JSON.parse(localStorage.getItem('favList')); 
@@ -62,8 +66,6 @@ function handleAddFavorites(event) {
         console.log('NO está cogiendo la lista de LS, la está pintando por primera vez'); 
         printFavSeries(favList, favSeriesContainer); 
     }
-
-}
 
 function printFavSeries(favList, favSeriesContainer) {
     seriesFound = ''; 
