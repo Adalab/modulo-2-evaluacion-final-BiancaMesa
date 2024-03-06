@@ -80,7 +80,7 @@ function printFavSeries(favList, favSeriesContainer) {
                     <img src="${defaultImage}" alt="${seriesTitle}">
                 </div>
                 `
-        } else {
+        } else if (!seriesFound.includes(seriesId)) {
             seriesFound += `
             <div class="series-fav-card js-series js-series-fav" id="${seriesId}"><i class="remove-fav js-remove-fav-btn fa-regular fa-circle-xmark"></i>
                 <h3 class="fav-card-title">${seriesTitle}</h3>
@@ -96,12 +96,12 @@ function printFavSeries(favList, favSeriesContainer) {
     //QUITAR PARA QUE FUNCIONE BIEN DE NUEVO ******
     //Add click events to removeFavButtons
     // //array with all the cross icons to remove that series from favList
-    const removeFavButtons = document.querySelectorAll('.js-remove-fav-btn'); 
+    // const removeFavButtons = document.querySelectorAll('.js-remove-fav-btn'); 
 
-    //We add a click event in each series we found
-    for (const removeFavButton of removeFavButtons) {
-        removeFavButton.addEventListener('click', handleRemoveFav); 
-    }   
+    // //We add a click event in each series we found
+    // for (const removeFavButton of removeFavButtons) {
+    //     removeFavButton.addEventListener('click', handleRemoveFav); 
+    // }   
 
 }
 
