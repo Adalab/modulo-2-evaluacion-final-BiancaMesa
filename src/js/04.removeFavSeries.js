@@ -6,24 +6,26 @@ const removeFavButton = document.querySelectorAll('.js-remove-fav-btn');
 function handleRemoveFav(event) {
     event.preventDefault();
 
-    const favLocalStorage = JSON.parse(localStorage.getItem('favList'));
+    const favSeriesLocalStorage = JSON.parse(localStorage.getItem('favList'));
 
-    const indexFavSeriesSelected = favLocalStorage.findIndex((favItem) => {
+    const indexFavSeriesSelected = favSeriesLocalStorage.findIndex((favItem) => {
         return parseInt(event.currentTarget.id) === favItem.mal_id; //nos devuelve el index del elemento que encuentre cuyo mal_id se corresponda con el id del elemento seleccionado y si no se encuentran resultados, nos devuelve -1
     })
 
+    console.log('index Fav Series Selected: ', indexFavSeriesSelected); 
+
     //si sí se han encontrado resultados, eliminamos ese elemento de la lista 
-    if (indexFavSeriesSelected !== -1) {
-        favLocalStorage.splice(indexFavSeriesSelected, 1); 
+    if (indexFavSeriesSelected === -1) {
+        favSeriesLocalStorage.splice(indexFavSeriesSelected, 1); 
         
         //Update local storage 
-        localStorage.setItem('favList', JSON.stringify(favLocalStorage));
+        localStorage.setItem('favList', JSON.stringify(favSeriesLocalStorage));
 
         //We empty the favSeriesContainer
         favSeriesContainer.innerHTML = ''; 
 
         //Print updated favList in favSeriesContainer 
-        printFavSeries(favLocalStorage, favSeriesContainer);
+        printFavSeries(favSeriesLocalStorage, favSeriesContainer);
     }
 
    
