@@ -9,8 +9,8 @@ const searchedSeriesContainer = document.querySelector('.js-search-cards-contain
 const favSeriesContainer = document.querySelector('.js-fav-cards-container'); 
 const url = 'https://api.jikan.moe/v4/anime?q='; 
 const defaultImage = "https://via.placeholder.com/210x295/ffffff/666666/?text=TV"; 
-let searchResult = []; //array with found series
-let seriesFound = [];
+let searchResult = []; //array with found series --> seriesList
+let seriesFound = []; //Cambiar a let seriesFound = ''; ??????
 let favList = []; 
 
 
