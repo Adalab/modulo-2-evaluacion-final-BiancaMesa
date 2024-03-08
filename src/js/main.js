@@ -10,8 +10,9 @@ const favSeriesContainer = document.querySelector('.js-fav-cards-container');
 const url = 'https://api.jikan.moe/v4/anime?q='; 
 const defaultImage = "https://via.placeholder.com/210x295/ffffff/666666/?text=TV"; 
 let searchResult = []; //array with found series --> seriesList
-let seriesFound = []; //Cambiar a let seriesFound = ''; ??????
-let favList = []; 
+let seriesFound = ''; // NEW --> cambiado de [] a '' porque no es un array
+let favHTML = ''; //NEW --> es igual que seriesFound pero para series favoritas
+let favList = []; //array with fav series --> favList
 
 
 //Find series
@@ -44,6 +45,7 @@ function handleAddFavorites(event) {
     printFavSeries(favList, favSeriesContainer); 
 }
 
+
 //LocalStorage: we get the favList from LS and save it in another variable 
 let favSeriesLocalStorage = JSON.parse(localStorage.getItem('favList')); 
 
@@ -57,24 +59,25 @@ if (favSeriesLocalStorage !== null) {
 
 //Print favList  
 function printFavSeries(favList, favSeriesContainer) {
-    seriesFound = ''; 
-
+    //seriesFound = ''; //OLD
+    //favHTML = ''; //NEW - no poner para que al refrescar la página no se quiten todas las series que hay ya guardadas 
+   
     for (const series of favList) {
         const seriesTitle = series.title; 
         const seriesImage = series.images.jpg.image_url; 
         const seriesId = series.mal_id; 
 
         if (series.images.jpg.image_url === null) {
-            seriesFound += `
-                <div class="series-fav-card js-series js-series-fav" id="${seriesId}">
+            favHTML += `
+                <div class="series-fav-card js-series js-series-fav" id="${seriesId}" collapsed>
                     <i class="remove-fav-btn js-remove-fav-btn fa-solid fa-x"></i>
                     <img class="fav-img" src="${defaultImage}" alt="${seriesTitle}">
                     <h3 class="fav-card-title">${seriesTitle}</h3>
                 </div>
                 `
-        } else if (!seriesFound.includes(seriesId)) {
-            seriesFound += `
-            <div class="series-fav-card js-series js-series-fav" id="${seriesId}">
+        } else if (!favHTML.includes(seriesId)) {
+            favHTML += `
+            <div class="series-fav-card js-series js-series-fav" id="${seriesId}collapsed">
                 <i class="remove-fav-btn js-remove-fav-btn fa-solid fa-x"></i>
                 <img class="fav-img" src="${seriesImage}" alt="${seriesTitle}">
                 <h3 class="fav-card-title">${seriesTitle}</h3>
@@ -84,7 +87,7 @@ function printFavSeries(favList, favSeriesContainer) {
     }
 
     //Print favSeries in html
-    favSeriesContainer.innerHTML = seriesFound; 
+    favSeriesContainer.innerHTML = favHTML; 
 
     //REMOVE FROM FAV LIST 
     const removeFav = document.querySelectorAll('.js-remove-fav-btn'); 
@@ -148,14 +151,21 @@ searchButton.addEventListener('click', handleSearchClick);
 
 
 //Reset whole page
-function handleReset() {
+function handleReset(event) {
+    event.preventDefault(); 
+
     //empty found series list
     searchResult = []; 
     printSeries(searchResult, searchedSeriesContainer)
 
     //empty favorite list
     favList = []; 
+    favHTML = ''; //NEW ***
+    
+    //empty favList from LS 
     localStorage.removeItem('favList');
+
+    //repaint - as we have deleted favList, when we repaint favList, everything will come out empty
     printFavSeries(favList, favSeriesContainer); 
 }
 
@@ -167,43 +177,66 @@ resetButton.addEventListener('click', handleReset);
 
 //Handler function to remove favorite series 
 function handleRemoveFav(event) {
+    event.preventDefault(); 
 
-    const idToRemove = parseInt(event.currentTarget.id); 
+    const indexFavSeriesSelected = favList.findIndex((favItem) => {
+        return favItem.mal_id === parseInt(event.currentTarget.id); 
+    })
+
+    if (indexFavSeriesSelected !== -1) {
+        favList.splice(indexFavSeriesSelected, 1);
+    }
+
+    //Detelete favList from LS 
+    //localStorage.removeItem('favList');
     
-    if (favSeriesLocalStorage !== null) {
+    //Update local storage 
+    localStorage.setItem('favList', JSON.stringify(favList));
 
-        const indexFavSeriesSelected = searchResult.findIndex((favItem) => {
-            return favItem.mal_id === idToRemove;
-        })
-
-        if (indexFavSeriesSelected !== -1) {
-            favSeriesLocalStorage.splice(indexFavSeriesSelected, 1);
-
-            //Print updated favList  
-            printFavSeries(favSeriesLocalStorage, favSeriesContainer);
-
-            //Update local storage 
-            localStorage.setItem('favList', JSON.stringify(favSeriesLocalStorage));
-        }
+    //Print updated favList  
+    printFavSeries(favList, favSeriesContainer);
 
 
-    } else {
 
-        const indexFavSeriesSelected = searchResult.findIndex((favItem) => {
-            return favItem.mal_id === idToRemove;
-        })
 
-        if (indexFavSeriesSelected !== -1) {
-            favList.splice(indexFavSeriesSelected, 1);
+    // __________________________ OLD ____________________________
 
-            //Print updated favList  
-            printFavSeries(favList, favSeriesContainer);
+    // const idToRemove = parseInt(event.currentTarget.id); 
+    
+    // if (favSeriesLocalStorage !== null) {
 
-            //Update local storage 
-            localStorage.setItem('favList', JSON.stringify(favList));
-        }
+    //     const indexFavSeriesSelected = searchResult.findIndex((favItem) => {
+    //         return favItem.mal_id === idToRemove;
+    //     })
+
+    //     if (indexFavSeriesSelected !== -1) {
+    //         favSeriesLocalStorage.splice(indexFavSeriesSelected, 1);
+
+    //         //Print updated favList  
+    //         printFavSeries(favSeriesLocalStorage, favSeriesContainer);
+
+    //         //Update local storage 
+    //         localStorage.setItem('favList', JSON.stringify(favSeriesLocalStorage));
+    //     }
+
+
+    // } else {
+
+    //     const indexFavSeriesSelected = searchResult.findIndex((favItem) => {
+    //         return favItem.mal_id === idToRemove;
+    //     })
+
+    //     if (indexFavSeriesSelected !== -1) {
+    //         favList.splice(indexFavSeriesSelected, 1);
+
+    //         //Print updated favList  
+    //         printFavSeries(favList, favSeriesContainer);
+
+    //         //Update local storage 
+    //         localStorage.setItem('favList', JSON.stringify(favList));
+    //     }
         
-    } 
+    // } 
 }
 
 
