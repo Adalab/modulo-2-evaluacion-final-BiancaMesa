@@ -90,6 +90,8 @@ h2 { //main two titles
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    //height: 100vh; 
+    //overflow: auto; // so the container scrolls
 }
 
 .series-card {
@@ -101,6 +103,11 @@ h2 { //main two titles
     cursor: pointer;
     border-radius: 10px;
     box-shadow: 0 1px 4px rgb(0 0 0 / 0.2);
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // align-items: center;
+    align-self: center; //this property makes all the cards adjust to their image and title which makes them look so much better but at the same time it looks weird to have different sizes of cards
 }
 
 .card-title {
@@ -111,6 +118,7 @@ h2 { //main two titles
     background-color: rgb(160, 197, 197);
     color: rgb(39, 53, 50);
     border-radius: 10px;
+    // align-self: end;
 }
 
 .series-card:hover{
@@ -137,6 +145,8 @@ h2 { //main two titles
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    //height: 100vh; 
+    //overflow: auto; // so the container scrolls
 }
 
 .series-fav-card {

@@ -7,9 +7,10 @@ const resetButton = document.querySelector('.js-reset-btn');
 const removeFavButton = document.querySelectorAll('.js-remove-fav-btn'); 
 const searchedSeriesContainer = document.querySelector('.js-search-cards-container'); 
 const favSeriesContainer = document.querySelector('.js-fav-cards-container'); 
-const url = 'https://api.jikan.moe/v4/anime?q='; 
+const urlServer = 'https://api.jikan.moe/v4/anime?q='; 
 const defaultImage = "https://via.placeholder.com/210x295/ffffff/666666/?text=TV"; 
 const resetFavListButton = document.querySelector('.js-reset-fav-list-btn'); 
+
 let searchResult = []; //array with found series
 let seriesFound = [];
 let favList = []; 
@@ -20,7 +21,7 @@ function findSeries () {
     const inputSearchValue = inputSearch.value; 
     
     //API request: la propia API va a devolver los resultados de la búsqueda
-    fetch(url + inputSearchValue)
+    fetch(urlServer + inputSearchValue)
     .then (response => response.json())
     .then (data => {
         searchResult = data.data;
@@ -179,7 +180,7 @@ function handleReset() {
 //Reset button 
 resetButton.addEventListener('click', handleReset); 
 
-
+console.log('Local Storage before handleRemoveFav function: ', JSON.parse(localStorage.getItem('favList'))); 
 
 
 //Handler function to remove favorite series 
@@ -189,13 +190,17 @@ function handleRemoveFav(event) {
     const favLocalStorage = JSON.parse(localStorage.getItem('favList'));
 
     const indexFavSeriesSelected = favLocalStorage.findIndex((favItem) => {
-        return favItem.mal_id === parseInt(event.currentTarget.id);
+        return parseInt(event.currentTarget.id) === favItem.mal_id;
     })
 
+    console.log('Local Storage before splice: ', favLocalStorage); 
+    console.log('Index selected item: ', indexFavSeriesSelected); 
     favLocalStorage.splice(indexFavSeriesSelected, 1);
+    console.log('Local Storage after splice: ', favLocalStorage); 
 
     //Update local storage 
     localStorage.setItem('favList', JSON.stringify(favLocalStorage));
+    console.log('Local Storage after splice2: ', favLocalStorage); 
 
     favSeriesContainer.innerHTML = ''; 
 
