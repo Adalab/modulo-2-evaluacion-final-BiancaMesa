@@ -5,7 +5,6 @@ const inputSearch = document.querySelector('.js-input-search');
 const searchButton = document.querySelector('.js-search-btn');
 const resetButton = document.querySelector('.js-reset-btn');
 const resetFavListButton = document.querySelector('.js-reset-fav-list-btn'); 
-//const removeFavButton = document.querySelectorAll('.js-remove-fav-btn'); 
 const searchedSeriesContainer = document.querySelector('.js-search-cards-container'); 
 const favSeriesContainer = document.querySelector('.js-fav-cards-container'); 
 const url = 'https://api.jikan.moe/v4/anime?q='; 
@@ -212,6 +211,9 @@ function handleRemoveFav(event) {
     if (indexFavSeriesSelected !== -1) {
         deleteFavorites.splice(indexFavSeriesSelected, 1);
     }
+
+    //Detelete favList from LS 
+    //localStorage.removeItem('favList');
     
     //Update local storage 
     localStorage.setItem('favList', JSON.stringify(deleteFavorites));
@@ -222,3 +224,46 @@ function handleRemoveFav(event) {
 
 }
 
+
+
+
+
+
+    // __________________________ OLD ____________________________
+
+    // const idToRemove = parseInt(event.currentTarget.id); 
+    
+    // if (favSeriesLocalStorage !== null) {
+
+    //     const indexFavSeriesSelected = searchResult.findIndex((favItem) => {
+    //         return favItem.mal_id === idToRemove;
+    //     })
+
+    //     if (indexFavSeriesSelected !== -1) {
+    //         favSeriesLocalStorage.splice(indexFavSeriesSelected, 1);
+
+    //         //Print updated favList  
+    //         printFavSeries(favSeriesLocalStorage, favSeriesContainer);
+
+    //         //Update local storage 
+    //         localStorage.setItem('favList', JSON.stringify(favSeriesLocalStorage));
+    //     }
+
+
+    // } else {
+
+    //     const indexFavSeriesSelected = searchResult.findIndex((favItem) => {
+    //         return favItem.mal_id === idToRemove;
+    //     })
+
+    //     if (indexFavSeriesSelected !== -1) {
+    //         favList.splice(indexFavSeriesSelected, 1);
+
+    //         //Print updated favList  
+    //         printFavSeries(favList, favSeriesContainer);
+
+    //         //Update local storage 
+    //         localStorage.setItem('favList', JSON.stringify(favList));
+    //     }
+        
+    // } 
