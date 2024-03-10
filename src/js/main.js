@@ -5,6 +5,7 @@ const inputSearch = document.querySelector('.js-input-search');
 const searchButton = document.querySelector('.js-search-btn');
 const resetButton = document.querySelector('.js-reset-btn');
 const removeFavButton = document.querySelectorAll('.js-remove-fav-btn'); 
+const episodesButton = document.querySelector('.js-episodes-btn'); 
 const searchedSeriesContainer = document.querySelector('.js-search-cards-container'); 
 const favSeriesContainer = document.querySelector('.js-fav-cards-container'); 
 const url = 'https://api.jikan.moe/v4/anime?q='; 
@@ -31,7 +32,9 @@ function findSeries () {
 function handleAddFavorites(event) {
 
     const seriesSelected = searchResult.find((series) => {
+        //console.log(`number of episodes: ${series.episodes}`);
         return parseInt(event.currentTarget.id) === series.mal_id; 
+        
     });
   
     //We add the new element to favList 
@@ -63,6 +66,8 @@ function printFavSeries(favList, favSeriesContainer) {
         const seriesTitle = series.title; 
         const seriesImage = series.images.jpg.image_url; 
         const seriesId = series.mal_id; 
+        const year = series.year; 
+
 
         if (series.images.jpg.image_url === null) {
             seriesFound += `
@@ -70,6 +75,7 @@ function printFavSeries(favList, favSeriesContainer) {
                     <i class="remove-fav-btn js-remove-fav-btn fa-solid fa-x"></i>
                     <img class="fav-img" src="${defaultImage}" alt="${seriesTitle}">
                     <h3 class="fav-card-title">${seriesTitle}</h3>
+                    <h2>${year}</h2>
                 </div>
                 `
         } else if (!seriesFound.includes(seriesId)) {
@@ -78,11 +84,14 @@ function printFavSeries(favList, favSeriesContainer) {
                 <i class="remove-fav-btn js-remove-fav-btn fa-solid fa-x"></i>
                 <img class="fav-img" src="${seriesImage}" alt="${seriesTitle}">
                 <h3 class="fav-card-title">${seriesTitle}</h3>
+                <h2>${year}</h2>
             </div>
             `
         }
+  
     }
 
+  
     //Print favSeries in html
     favSeriesContainer.innerHTML = seriesFound; 
 
@@ -96,7 +105,6 @@ function printFavSeries(favList, favSeriesContainer) {
 }
 
 
-
 //Print searched series
 function printSeries(searchResult, searchedSeriesContainer) {
     seriesFound = ''; 
@@ -105,12 +113,15 @@ function printSeries(searchResult, searchedSeriesContainer) {
         const seriesTitle = series.title; 
         const seriesImage = series.images.jpg.image_url; 
         const seriesId = series.mal_id; 
+        const year = series.year; 
+        const episodes = series.episodes; 
 
         if (series.images.jpg.image_url === null) {
             seriesFound += `
                 <div class="series-card js-series" id="${seriesId}">
                     <img class="searched-img" src="${defaultImage}" alt="${seriesTitle}">
                     <h3 class="card-title">${seriesTitle}</h3>
+                    <h2>${year}</h2>
                 </div>
                 `
         } else {
@@ -118,9 +129,18 @@ function printSeries(searchResult, searchedSeriesContainer) {
             <div class="series-card js-series" id="${seriesId}">
                 <img class="searched-img" src="${seriesImage}" alt="${seriesTitle}">
                 <h3 class="card-title">${seriesTitle}</h3>
+                <h2>${year}</h2>
             </div>
             `
         }
+
+
+        //Episodes Function
+        function handleEpisodes () {
+            console.log(`number of episodes: ${episodes}`);
+        }
+
+        episodesButton.addEventListener('click', handleEpisodes); 
     }
 
     //Print found series in html
@@ -146,7 +166,6 @@ function handleSearchClick(event) {
 searchButton.addEventListener('click', handleSearchClick);
 
 
-
 //Reset whole page
 function handleReset() {
     //empty found series list
@@ -161,8 +180,6 @@ function handleReset() {
 
 //Reset button 
 resetButton.addEventListener('click', handleReset); 
-
-
 
 
 //Handler function to remove favorite series 
@@ -205,6 +222,8 @@ function handleRemoveFav(event) {
         
     } 
 }
+
+
 
 
 
