@@ -4,6 +4,7 @@
 const inputSearch = document.querySelector('.js-input-search');
 const searchButton = document.querySelector('.js-search-btn');
 const resetButton = document.querySelector('.js-reset-btn');
+const resetFavListButton = document.querySelector('.js-reset-fav-list-btn'); 
 //const removeFavButton = document.querySelectorAll('.js-remove-fav-btn'); 
 const searchedSeriesContainer = document.querySelector('.js-search-cards-container'); 
 const favSeriesContainer = document.querySelector('.js-fav-cards-container'); 
@@ -31,10 +32,10 @@ function findSeries () {
 //Add favorite series to favList
 function handleAddFavorites(event) {
 
-    //variable que obtiene los últimos elementos de la lista de favoritos de LS
+    //variable que obtiene los últimos elementos de la lista de favoritos de LS // NEW***
     const favFavorites = localStorage.getItem('favList'); 
 
-    //si LS está lleno, muéstrame lo último que tengo en LS
+    //si LS está lleno, muéstrame lo último que tengo en LS // NEW ***
     if (favFavorites !== null ) {
         favList = JSON.parse(favFavorites); 
     }
@@ -70,7 +71,7 @@ if (favSeriesLocalStorage !== null) {
 function printFavSeries(favList, favSeriesContainer) {
     //seriesFound = ''; //OLD
     //favHTML = ''; //NEW - no poner para que al refrescar la página no se quiten todas las series que hay ya guardadas 
-    favHTML = '';
+    favHTML = ''; // NEW ***
    
     for (const series of favList) {
         const seriesTitle = series.title; 
@@ -105,9 +106,9 @@ function printFavSeries(favList, favSeriesContainer) {
     const removeFavButtons = document.querySelectorAll('.js-remove-fav-btn');
 
     // We add a click event in each remove button
-    removeFavButtons.forEach((removeButton) => {
-        removeButton.addEventListener('click', handleRemoveFav);
-    });
+    for (const removeFavButton of removeFavButtons) {
+        removeFavButton.addEventListener('click', handleRemoveFav);
+    };
 }
 
 
@@ -185,7 +186,15 @@ function handleReset(event) {
 resetButton.addEventListener('click', handleReset); 
 
 
+//Reset favorite list 
+function handleClickResetFavList () {
+        favList = []; 
+        favHTML = ''; 
+        localStorage.removeItem('favList'); 
+        printFavSeries(favList, favSeriesContainer); 
+}
 
+resetFavListButton.addEventListener('click', handleClickResetFavList);
 
 //Handler function to remove favorite series 
 function handleRemoveFav(event) {
@@ -203,9 +212,6 @@ function handleRemoveFav(event) {
     if (indexFavSeriesSelected !== -1) {
         deleteFavorites.splice(indexFavSeriesSelected, 1);
     }
-
-    //Detelete favList from LS 
-    //localStorage.removeItem('favList');
     
     //Update local storage 
     localStorage.setItem('favList', JSON.stringify(deleteFavorites));
@@ -216,46 +222,3 @@ function handleRemoveFav(event) {
 
 }
 
-
-
-
-
-
-    // __________________________ OLD ____________________________
-
-    // const idToRemove = parseInt(event.currentTarget.id); 
-    
-    // if (favSeriesLocalStorage !== null) {
-
-    //     const indexFavSeriesSelected = searchResult.findIndex((favItem) => {
-    //         return favItem.mal_id === idToRemove;
-    //     })
-
-    //     if (indexFavSeriesSelected !== -1) {
-    //         favSeriesLocalStorage.splice(indexFavSeriesSelected, 1);
-
-    //         //Print updated favList  
-    //         printFavSeries(favSeriesLocalStorage, favSeriesContainer);
-
-    //         //Update local storage 
-    //         localStorage.setItem('favList', JSON.stringify(favSeriesLocalStorage));
-    //     }
-
-
-    // } else {
-
-    //     const indexFavSeriesSelected = searchResult.findIndex((favItem) => {
-    //         return favItem.mal_id === idToRemove;
-    //     })
-
-    //     if (indexFavSeriesSelected !== -1) {
-    //         favList.splice(indexFavSeriesSelected, 1);
-
-    //         //Print updated favList  
-    //         printFavSeries(favList, favSeriesContainer);
-
-    //         //Update local storage 
-    //         localStorage.setItem('favList', JSON.stringify(favList));
-    //     }
-        
-    // } 
