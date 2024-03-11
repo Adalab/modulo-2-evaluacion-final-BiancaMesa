@@ -5,12 +5,13 @@ const inputSearch = document.querySelector('.js-input-search');
 const searchButton = document.querySelector('.js-search-btn');
 const resetButton = document.querySelector('.js-reset-btn');
 const removeFavButton = document.querySelectorAll('.js-remove-fav-btn'); 
+const titleButton = document.querySelector('.js-title-btn'); 
 const searchedSeriesContainer = document.querySelector('.js-search-cards-container'); 
 const favSeriesContainer = document.querySelector('.js-fav-cards-container'); 
 const url = 'https://api.jikan.moe/v4/anime?q='; 
 const defaultImage = "https://via.placeholder.com/210x295/ffffff/666666/?text=TV"; 
 let searchResult = []; //array with found series
-let seriesFound = [];
+let seriesFound = '';
 let favList = []; 
 
 
@@ -105,12 +106,14 @@ function printSeries(searchResult, searchedSeriesContainer) {
         const seriesTitle = series.title; 
         const seriesImage = series.images.jpg.image_url; 
         const seriesId = series.mal_id; 
+        const score = series.score; 
 
         if (series.images.jpg.image_url === null) {
             seriesFound += `
                 <div class="series-card js-series" id="${seriesId}">
                     <img class="searched-img" src="${defaultImage}" alt="${seriesTitle}">
                     <h3 class="card-title">${seriesTitle}</h3>
+                    <h4>${score}</h4>
                 </div>
                 `
         } else {
@@ -118,6 +121,7 @@ function printSeries(searchResult, searchedSeriesContainer) {
             <div class="series-card js-series" id="${seriesId}">
                 <img class="searched-img" src="${seriesImage}" alt="${seriesTitle}">
                 <h3 class="card-title">${seriesTitle}</h3>
+                <h4>${score}</h4>
             </div>
             `
         }
@@ -206,6 +210,15 @@ function handleRemoveFav(event) {
     } 
 }
 
+function handleTitle () {
+    const favListTitle = JSON.parse(localStorage.getItem('favList'));
+
+    for (const series of favListTitle) {
+        console.log(`Titulo serie: ${series.title}`); 
+    }
+}
+
+titleButton.addEventListener('click', handleTitle); 
 
 
 
