@@ -9,10 +9,17 @@ const searchedSeriesContainer = document.querySelector('.js-search-cards-contain
 const favSeriesContainer = document.querySelector('.js-fav-cards-container'); 
 const url = 'https://api.jikan.moe/v4/anime?q='; 
 const defaultImage = "https://via.placeholder.com/210x295/ffffff/666666/?text=TV"; 
-let searchResult = []; //array with found series --> seriesList
-let seriesFound = ''; // NEW --> cambiado de [] a '' porque no es un array
-let favHTML = ''; //NEW --> es igual que seriesFound pero para series favoritas
+let seriesList = []; //array with found series --> seriesList
 let favList = []; //array with fav series --> favList
+
+//LocalStorage: we get the favList from LS and save it in a variable 
+const favSeriesLocalStorage = JSON.parse(localStorage.getItem('favoriteList')); 
+
+//If localStorage has already the favList in it
+if (favSeriesLocalStorage !== null) {
+    favList = favSeriesLocalStorage; //we update favList with the content of local storage
+    printFavSeries(favList, favSeriesContainer); //we print favList 
+ } 
 
 
 //Find series
@@ -23,8 +30,8 @@ function findSeries () {
     fetch(url + inputSearchValue)
     .then (response => response.json())
     .then (data => {
-        searchResult = data.data;
-        printSeries(searchResult, searchedSeriesContainer);
+        seriesList = data.data;
+        printSeries(seriesList, searchedSeriesContainer);
     })
 }
 
@@ -32,14 +39,14 @@ function findSeries () {
 function handleAddFavorites(event) {
 
     //variable que obtiene los últimos elementos de la lista de favoritos de LS // NEW***
-    const favFavorites = localStorage.getItem('favList'); 
+    // const favFavorites = localStorage.getItem('favoriteList'); 
 
-    //si LS está lleno, muéstrame lo último que tengo en LS // NEW ***
-    if (favFavorites !== null ) {
-        favList = JSON.parse(favFavorites); 
-    }
+    // //si LS está lleno, muéstrame lo último que tengo en LS // NEW ***
+    // if (favFavorites !== null ) {
+    //     favList = JSON.parse(favFavorites); 
+    // }
 
-    const seriesSelected = searchResult.find((series) => {
+    const seriesSelected = seriesList.find((series) => {
         return parseInt(event.currentTarget.id) === series.mal_id; 
     });
   
@@ -47,30 +54,15 @@ function handleAddFavorites(event) {
     favList.push(seriesSelected);
     
     //We storage favList in LocalStorage
-    localStorage.setItem('favList', JSON.stringify(favList));
+    localStorage.setItem('favoriteList', JSON.stringify(favList));
 
     //Print favList in html for the first time 
     printFavSeries(favList, favSeriesContainer); 
 }
 
-
-//LocalStorage: we get the favList from LS and save it in another variable 
-let favSeriesLocalStorage = JSON.parse(localStorage.getItem('favList')); 
-
-//If localStorage has already the favList in it, we print that list that is storaged
-if (favSeriesLocalStorage !== null) {
-    printFavSeries(favSeriesLocalStorage, favSeriesContainer);
- } 
-//else {
-//     printFavSeries(favList, favSeriesContainer); 
-// }
-
-
 //Print favList  
 function printFavSeries(favList, favSeriesContainer) {
-    //seriesFound = ''; //OLD
-    //favHTML = ''; //NEW - no poner para que al refrescar la página no se quiten todas las series que hay ya guardadas 
-    favHTML = ''; // NEW ***
+    let favHTML = ''; 
    
     for (const series of favList) {
         const seriesTitle = series.title; 
@@ -110,13 +102,11 @@ function printFavSeries(favList, favSeriesContainer) {
     };
 }
 
-
-
 //Print searched series
-function printSeries(searchResult, searchedSeriesContainer) {
-    seriesFound = ''; 
+function printSeries(seriesList, searchedSeriesContainer) {
+    let seriesFound = ''; 
 
-    for (const series of searchResult) {
+    for (const series of seriesList) {
         const seriesTitle = series.title; 
         const seriesImage = series.images.jpg.image_url; 
         const seriesId = series.mal_id; 
@@ -151,31 +141,28 @@ function printSeries(searchResult, searchedSeriesContainer) {
 
 }
 
-
 //Handler function to Search series 
 function handleSearchClick(event) {
     event.preventDefault(); 
-    findSeries(seriesFound);
+    findSeries();
 }
 
 searchButton.addEventListener('click', handleSearchClick);
-
-
 
 //Reset whole page
 function handleReset(event) {
     event.preventDefault(); 
 
     //empty found series list
-    searchResult = []; 
-    printSeries(searchResult, searchedSeriesContainer)
+    seriesList = []; 
+    printSeries(seriesList, searchedSeriesContainer)
 
     //empty favorite list
     favList = []; 
-    favHTML = ''; //NEW ***
+   // favHTML = ''; //NEW ***
     
     //empty favList from LS 
-    localStorage.removeItem('favList');
+    localStorage.removeItem('favoriteList');
 
     //repaint - as we have deleted favList, when we repaint favList, everything will come out empty
     printFavSeries(favList, favSeriesContainer); 
@@ -184,12 +171,11 @@ function handleReset(event) {
 //Reset button 
 resetButton.addEventListener('click', handleReset); 
 
-
 //Reset favorite list 
 function handleClickResetFavList () {
         favList = []; 
-        favHTML = ''; 
-        localStorage.removeItem('favList'); 
+        //favHTML = ''; 
+        localStorage.removeItem('favoriteList'); 
         printFavSeries(favList, favSeriesContainer); 
 }
 
@@ -199,71 +185,29 @@ resetFavListButton.addEventListener('click', handleClickResetFavList);
 function handleRemoveFav(event) {
     event.preventDefault(); 
 
-    let deleteFavorites = JSON.parse(localStorage.getItem('favList'));
-   
+    //we get what we have in local storage (the list of favourite series)
+    let deleteFavorites = JSON.parse(localStorage.getItem('favoriteList'));
+    //we update favList to what we had in LS
+    favList = deleteFavorites;
 
-    const indexFavSeriesSelected = deleteFavorites.findIndex((favItem) => {
+    const indexFavSeriesSelected = favList.findIndex((favItem) => {
         return favItem.mal_id === parseInt(event.currentTarget.parentElement.id); //parentElement obtiene el elemento padre del elemento en el que se ha hecho click 
     })
 
     console.log('indexFavSeriesSelected', indexFavSeriesSelected); 
 
     if (indexFavSeriesSelected !== -1) {
-        deleteFavorites.splice(indexFavSeriesSelected, 1);
+        favList.splice(indexFavSeriesSelected, 1);
     }
 
     //Detelete favList from LS 
     //localStorage.removeItem('favList');
     
     //Update local storage 
-    localStorage.setItem('favList', JSON.stringify(deleteFavorites));
+    localStorage.setItem('favoriteList', JSON.stringify(favList));
 
     //Print updated favList  
-    printFavSeries(deleteFavorites, favSeriesContainer);
+    printFavSeries(favList, favSeriesContainer);
 
 
 }
-
-
-
-
-
-
-    // __________________________ OLD ____________________________
-
-    // const idToRemove = parseInt(event.currentTarget.id); 
-    
-    // if (favSeriesLocalStorage !== null) {
-
-    //     const indexFavSeriesSelected = searchResult.findIndex((favItem) => {
-    //         return favItem.mal_id === idToRemove;
-    //     })
-
-    //     if (indexFavSeriesSelected !== -1) {
-    //         favSeriesLocalStorage.splice(indexFavSeriesSelected, 1);
-
-    //         //Print updated favList  
-    //         printFavSeries(favSeriesLocalStorage, favSeriesContainer);
-
-    //         //Update local storage 
-    //         localStorage.setItem('favList', JSON.stringify(favSeriesLocalStorage));
-    //     }
-
-
-    // } else {
-
-    //     const indexFavSeriesSelected = searchResult.findIndex((favItem) => {
-    //         return favItem.mal_id === idToRemove;
-    //     })
-
-    //     if (indexFavSeriesSelected !== -1) {
-    //         favList.splice(indexFavSeriesSelected, 1);
-
-    //         //Print updated favList  
-    //         printFavSeries(favList, favSeriesContainer);
-
-    //         //Update local storage 
-    //         localStorage.setItem('favList', JSON.stringify(favList));
-    //     }
-        
-    // } 
