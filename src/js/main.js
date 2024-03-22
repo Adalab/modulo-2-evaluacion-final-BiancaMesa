@@ -38,14 +38,6 @@ function findSeries () {
 //Add favorite series to favList
 function handleAddFavorites(event) {
 
-    //variable que obtiene los últimos elementos de la lista de favoritos de LS // NEW***
-    // const favFavorites = localStorage.getItem('favoriteList'); 
-
-    // //si LS está lleno, muéstrame lo último que tengo en LS // NEW ***
-    // if (favFavorites !== null ) {
-    //     favList = JSON.parse(favFavorites); 
-    // }
-
     const seriesSelected = seriesList.find((series) => {
         return parseInt(event.currentTarget.id) === series.mal_id; 
     });
@@ -86,8 +78,6 @@ function printFavSeries(favList, favSeriesContainer) {
                 </div>
                 `
         }
-
-        //removeFavButton.addEventListener('click', handleRemoveFav); 
     }
 
     //Print favSeries in html
@@ -153,13 +143,15 @@ searchButton.addEventListener('click', handleSearchClick);
 function handleReset(event) {
     event.preventDefault(); 
 
+    //empty input search value
+    inputSearch.value = ""; 
+
     //empty found series list
     seriesList = []; 
     printSeries(seriesList, searchedSeriesContainer)
 
     //empty favorite list
     favList = []; 
-   // favHTML = ''; //NEW ***
     
     //empty favList from LS 
     localStorage.removeItem('favoriteList');
@@ -173,8 +165,7 @@ resetButton.addEventListener('click', handleReset);
 
 //Reset favorite list 
 function handleClickResetFavList () {
-        favList = []; 
-        //favHTML = ''; 
+        favList = [];  
         localStorage.removeItem('favoriteList'); 
         printFavSeries(favList, favSeriesContainer); 
 }
@@ -187,6 +178,7 @@ function handleRemoveFav(event) {
 
     //we get what we have in local storage (the list of favourite series)
     let deleteFavorites = JSON.parse(localStorage.getItem('favoriteList'));
+
     //we update favList to what we had in LS
     favList = deleteFavorites;
 
@@ -194,20 +186,13 @@ function handleRemoveFav(event) {
         return favItem.mal_id === parseInt(event.currentTarget.parentElement.id); //parentElement obtiene el elemento padre del elemento en el que se ha hecho click 
     })
 
-    console.log('indexFavSeriesSelected', indexFavSeriesSelected); 
-
     if (indexFavSeriesSelected !== -1) {
         favList.splice(indexFavSeriesSelected, 1);
     }
-
-    //Detelete favList from LS 
-    //localStorage.removeItem('favList');
     
     //Update local storage 
     localStorage.setItem('favoriteList', JSON.stringify(favList));
 
     //Print updated favList  
     printFavSeries(favList, favSeriesContainer);
-
-
 }
