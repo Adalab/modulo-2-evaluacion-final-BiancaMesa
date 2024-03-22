@@ -1,24 +1,24 @@
-const S=document.querySelector(".js-input-search"),h=document.querySelector(".js-search-btn"),j=document.querySelector(".js-reset-btn");document.querySelectorAll(".js-remove-fav-btn");const m=document.querySelector(".js-search-cards-container"),d=document.querySelector(".js-fav-cards-container"),p="https://api.jikan.moe/v4/anime?q=",u="https://via.placeholder.com/210x295/ffffff/666666/?text=TV";let c=[],a=[],n=[];function $(){const t=S.value;fetch(p+t).then(s=>s.json()).then(s=>{c=s.data,g(c,m)})}function I(t){const s=c.find(i=>parseInt(t.currentTarget.id)===i.mal_id);n.push(s),localStorage.setItem("favList",JSON.stringify(n)),f(n,d)}let o=JSON.parse(localStorage.getItem("favList"));f(o!==null?o:n,d);function f(t,s){a="";for(const e of t){const r=e.title,v=e.images.jpg.image_url,l=e.mal_id;e.images.jpg.image_url===null?a+=`
-                <div class="series-fav-card js-series js-series-fav" id="${l}">
+const S=document.querySelector(".js-input-search"),h=document.querySelector(".js-search-btn"),p=document.querySelector(".js-reset-btn"),j=document.querySelector(".js-reset-fav-list-btn"),m=document.querySelector(".js-search-cards-container"),l=document.querySelector(".js-fav-cards-container"),L="https://api.jikan.moe/v4/anime?q=",u="https://via.placeholder.com/210x295/ffffff/666666/?text=TV";let o=[],t=[];const v=JSON.parse(localStorage.getItem("favoriteList"));v!==null&&(t=v,d(t,l));function $(){const e=S.value;fetch(L+e).then(a=>a.json()).then(a=>{o=a.data,g(o,m)})}function I(e){const a=o.find(s=>parseInt(e.currentTarget.id)===s.mal_id);t.push(a),localStorage.setItem("favoriteList",JSON.stringify(t)),d(t,l)}function d(e,a){let s="";for(const i of e){const r=i.title,f=i.images.jpg.image_url,n=i.mal_id;i.images.jpg.image_url===null?s+=`
+                <div class="series-fav-card js-series js-series-fav" id="${n}" collapsed>
                     <i class="remove-fav-btn js-remove-fav-btn fa-solid fa-x"></i>
                     <img class="fav-img" src="${u}" alt="${r}">
                     <h3 class="fav-card-title">${r}</h3>
                 </div>
-                `:a.includes(l)||(a+=`
-            <div class="series-fav-card js-series js-series-fav" id="${l}">
-                <i class="remove-fav-btn js-remove-fav-btn fa-solid fa-x"></i>
-                <img class="fav-img" src="${v}" alt="${r}">
-                <h3 class="fav-card-title">${r}</h3>
-            </div>
-            `)}s.innerHTML=a;const i=document.querySelectorAll(".js-remove-fav-btn");for(const e of i)e.addEventListener("click",q)}function g(t,s){a="";for(const e of t){const r=e.title,v=e.images.jpg.image_url,l=e.mal_id;e.images.jpg.image_url===null?a+=`
-                <div class="series-card js-series" id="${l}">
+                `:s.includes(n)||(s+=`
+                <div class="series-fav-card js-series js-series-fav" id="${n}collapsed">
+                    <i class="remove-fav-btn js-remove-fav-btn fa-solid fa-x"></i>
+                    <img class="fav-img" src="${f}" alt="${r}">
+                    <h3 class="fav-card-title">${r}</h3>
+                </div>
+                `)}a.innerHTML=s;const c=document.querySelectorAll(".js-remove-fav-btn");for(const i of c)i.addEventListener("click",b)}function g(e,a){let s="";for(const i of e){const r=i.title,f=i.images.jpg.image_url,n=i.mal_id;i.images.jpg.image_url==="htpps://cdn.myanimelist.net/img/sp/icon/apple-touch-/icon-256.png"?s+=`
+                <div class="series-card js-series" id="${n}">
                     <img class="searched-img" src="${u}" alt="${r}">
                     <h3 class="card-title">${r}</h3>
                 </div>
-                `:a+=`
-            <div class="series-card js-series" id="${l}">
-                <img class="searched-img" src="${v}" alt="${r}">
+                `:s+=`
+            <div class="series-card js-series" id="${n}">
+                <img class="searched-img" src="${f}" alt="${r}">
                 <h3 class="card-title">${r}</h3>
             </div>
-            `}s.innerHTML=a;const i=document.querySelectorAll(".js-series");for(const e of i)e.addEventListener("click",I)}function L(t){t.preventDefault(),$()}h.addEventListener("click",L);function y(){c=[],g(c,m),n=[],localStorage.removeItem("favList"),f(n,d)}j.addEventListener("click",y);function q(t){const s=parseInt(t.currentTarget.id);if(o!==null){const i=c.findIndex(e=>e.mal_id===s);i!==-1&&(o.splice(i,1),f(o,d),localStorage.setItem("favList",JSON.stringify(o)))}else{const i=c.findIndex(e=>e.mal_id===s);i!==-1&&(n.splice(i,1),f(n,d),localStorage.setItem("favList",JSON.stringify(n)))}}
+            `}a.innerHTML=s;const c=document.querySelectorAll(".js-series");for(const i of c)i.addEventListener("click",I)}function F(e){e.preventDefault(),$()}h.addEventListener("click",F);function y(e){e.preventDefault(),o=[],g(o,m),t=[],localStorage.removeItem("favoriteList"),d(t,l)}p.addEventListener("click",y);function q(){t=[],localStorage.removeItem("favoriteList"),d(t,l)}j.addEventListener("click",q);function b(e){e.preventDefault(),t=JSON.parse(localStorage.getItem("favoriteList"));const s=t.findIndex(c=>c.mal_id===parseInt(e.currentTarget.parentElement.id));console.log("indexFavSeriesSelected",s),s!==-1&&t.splice(s,1),localStorage.setItem("favoriteList",JSON.stringify(t)),d(t,l)}
 //# sourceMappingURL=main.js.map
